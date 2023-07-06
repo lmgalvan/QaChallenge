@@ -4,6 +4,8 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   projectId: "hyexer",
   chromeWebSecurity: false,
+  viewportWidth: 1920,
+  viewportHeight: 1080,
   env: {
     URL:"http://google.com",
     baseUrl: 'https://calendar-challenge-six.vercel.app/',

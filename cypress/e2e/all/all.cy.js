@@ -26,12 +26,11 @@ describe('Challenge Calendar App', () => {
     cy.visit(Cypress.env("baseUrl"))
     const evento = EventoBuilder.diaDeLaMarmota().build() 
 
-      //Creamos la nota
-      CalendarPage.clickEnFecha(evento.mes,evento.dia)
-      EventsElement.escribirNota(evento.nota)
-      EventsElement.cerrarModal()
+    //En caso de quere crear el dia de antes.
+    //CalendarPage.clickEnFecha(evento.mes,evento.dia)
+    //EventsElement.escribirNotaNew(evento.nota)
 
-      //Verificamos si existe
+
       CalendarPage.existeEvento(evento)
 
       //Si no existe la creamos
@@ -39,12 +38,12 @@ describe('Challenge Calendar App', () => {
         if (!valor) {
         console.log("Crea Nota");
         CalendarPage.clickEnFecha(evento.mes,evento.dia)
-        EventsElement.escribirNota(evento.nota)
-        EventsElement.cerrarModal()
+        EventsElement.escribirNotaNew(evento.nota)
       } else {
         console.log("No Crear Nota");
       }
   })
+      
   })
 
   it('Delete Groundhog Day',{tags:'ultimo'},()=> {
@@ -53,8 +52,7 @@ describe('Challenge Calendar App', () => {
 
       //Se crea dia
       CalendarPage.clickEnFecha(evento.mes,evento.dia)
-      EventsElement.escribirNota(evento.nota)
-      EventsElement.cerrarModal()
+      EventsElement.escribirNotaNew(evento.nota)
     
     //Retorna valor si existe o no el dia
     CalendarPage.existeEvento(evento)
@@ -70,6 +68,7 @@ describe('Challenge Calendar App', () => {
       cy.log("No existe Nota")
     }
 })
-    
+  
   })
+  
 })

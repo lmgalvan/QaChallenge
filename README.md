@@ -46,7 +46,7 @@ const transporter = nodemailer.createTransport({
 
 # Donde ingresar el mail destinatario del reporte de los test
 
--En la raiz del proyecto en el archivo Mailer.js dentro del a constante "info"
+-En la raiz del proyecto en el archivo Mailer.js dentro de la constante "info"
 
 ```js
 const info = await transporter.sendMail({

@@ -33,7 +33,7 @@ export class CalendarPage {
     }
 
     clickDay(day){
-      this.elements.diaSpace(day).click()
+      this.elements.diaSpace(day).click({force:true})
     }
 
     clickEnFecha(month,day){
@@ -70,27 +70,13 @@ export class CalendarPage {
       return finalString
     }
 
-      existeNota(nota){
-      cy.xpath("//div[@class='Grid_reminder__OelsH']").each($el => {
-      const notaIngresada = this.parseTexto($el.text())
-      const notaAIngresar = this.parseTexto(nota) 
-      if (notaIngresada == notaAIngresar ) {
-        console.log('Si existe la nota');
-        const existe = true
-        cy.wrap(existe).as("existe")
-      } else{
-        console.log('No existe la nota');
-        const existe = false
-        cy.wrap(existe).as("existe")
-      } 
-    })
-    }
 
+    
     existeEvento(evento){
       cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+evento.dia+"]/following-sibling::div[1]").then(($contexto) => {
     if ($contexto.find('.Grid_reminder__OelsH').length > 0) {
       console.log("el elemento existe");
-      this.existeNota(evento.nota)
+      this.existeNotaNew(evento.nota)
     } else {
       console.log("el elemento no existe");
       const existe = false
@@ -99,6 +85,26 @@ export class CalendarPage {
   });
     }
 
+     existeNotaNew(nota){
+      let existeNota = false;
+      cy.xpath("//div[@class='Grid_reminder__OelsH']").each(($el, index, $list) => {
+        const notaIngresada = this.parseTexto($el.text());
+        const notaAIngresar = this.parseTexto(nota);
+
+        if (notaIngresada === notaAIngresar) {
+          console.log('Si existe la nota');
+          existeNota = true;
+          return false; // Salir del bucle cuando se encuentra la nota
+        }
+      }).then(() => {
+        if (existeNota) {
+          cy.wrap(true).as("existe");
+        } else {
+          cy.wrap(false).as("existe");
+        }
+      });
+    }
+    
 }
 
 module.exports = new CalendarPage()
