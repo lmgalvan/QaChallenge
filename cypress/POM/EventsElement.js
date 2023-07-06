@@ -4,17 +4,22 @@ export class EventsElement {
     }
 
     elements={
-        textNota: () => cy.xpath("//div[@class='Grid_reminderInput__pQ5qK']//textarea"),
-        exitModal:() => cy.get("[data-cy-test='cy-Modal-exit']")
+        textNoteElement: () => cy.xpath("//div[@class='Grid_reminderInput__pQ5qK']//textarea"),
+        exitModal:() => cy.get("[data-cy-test='cy-Modal-exit']"),
+        deleteNoteButton:() => cy.xpath("(//div[@class='Grid_reminderContent__pLoKD']//span[@class='Grid_customIcon__JyTa0 Grid_icon-cancel__HmIzw'])[1]")
     }
 
     closeModal(){
         this.elements.exitModal().click()
     }
 
+    deleteNote(){
+      this.elements.deleteNoteButton().click()
+    }
+
     writeNote(note){
         let firstFreeIndex = -1;
-        cy.xpath("(//div[@class='Grid_reminderInput__pQ5qK']//textarea)").each(($el, index, $list) => {
+        this.elements.textNoteElement().each(($el, index, $list) => {
           const textNote = $el.text();
           if (textNote === '') {
             firstFreeIndex = index;
@@ -23,7 +28,7 @@ export class EventsElement {
         });
         
         if (firstFreeIndex == -1) {
-          cy.xpath("(//div[@class='Grid_reminderInput__pQ5qK']//textarea)").eq(firstFreeIndex).type(note);
+          this.elements.textNoteElement().eq(firstFreeIndex).type(note);
           this.closeModal()
         } else {
           cy.log("No hay índices libres disponibles para escribir una nueva nota.");

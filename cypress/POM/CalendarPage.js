@@ -21,7 +21,9 @@ export class CalendarPage {
         nextButton: () => cy.get("div").contains("Next"),
         prevButton: () => cy.get("div").contains("Prev"),
         actualMonth: () => cy.xpath("//div[@class='Grid_header__yAoy_']//div[2]"),
-        daySpace:(day) => cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+ day +"]")
+        daySpace:(day) => cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+ day +"]"),
+        eventTextArea:(event) => cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+event.day+"]/following-sibling::div[1]"),
+        noteArea:() => cy.xpath("//div[@class='Grid_reminder__OelsH']")
     }
 
     clickNextMonth(){
@@ -73,7 +75,7 @@ export class CalendarPage {
 
 
     eventExist(event){
-      cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+event.day+"]/following-sibling::div[1]").then(($context) => {
+      this.elements.eventTextArea(event).then(($context) => {
     if ($context.find('.Grid_reminder__OelsH').length > 0) {
       console.log("el elemento exist");
       this.noteExist(event.note)
@@ -87,7 +89,7 @@ export class CalendarPage {
 
      noteExist(note){
       let existNote = false;
-      cy.xpath("//div[@class='Grid_reminder__OelsH']").each(($el, index, $list) => {
+      this.elements.noteArea().each(($el, index, $list) => {
         const noteEntered = this.parseText($el.text());
         const noteToEnter = this.parseText(note);
 

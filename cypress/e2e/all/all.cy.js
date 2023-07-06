@@ -61,7 +61,7 @@ describe('Challenge Calendar App', () => {
     cy.get("@exist").then( (value) => {
       if (value) {
       CalendarPage.clickOnDate(event.month,event.day)
-      cy.xpath("(//div[@class='Grid_reminderContent__pLoKD']//span[@class='Grid_customIcon__JyTa0 Grid_icon-cancel__HmIzw'])[1]").click()
+      EventsElement.deleteNote()
       EventsElement.closeModal()
     } else {
       cy.log("No existe Nota")
