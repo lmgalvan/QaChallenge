@@ -1,6 +1,6 @@
 import CalendarPage   from "../../POM/CalendarPage"
 import EventsElement  from "../../POM/EventsElement"
-import EventoBuilder  from "../../builders/EventoBuilder"
+import EventBuilder  from "../../builders/EventBuilder"
 
 
 
@@ -19,26 +19,26 @@ describe('Challenge Calendar App', () => {
   it('Go To February', () => {
     cy.visit(Cypress.env("baseUrl"))
      const monthToGo = "February"
-     CalendarPage.recorrerAlMes(monthToGo) 
+     CalendarPage.goToMonth(monthToGo) 
   })
 
   it('Create Groundhog Day', () => {
     cy.visit(Cypress.env("baseUrl"))
-    const evento = EventoBuilder.diaDeLaMarmota().build() 
+    const event = EventBuilder.groundhogDay().build() 
 
     //En caso de quere crear el dia de antes.
-    //CalendarPage.clickEnFecha(evento.mes,evento.dia)
-    //EventsElement.escribirNotaNew(evento.nota)
+    //CalendarPage.clickOnDate(event.month,event.day)
+    //EventsElement.writeNote(event.note)
 
 
-      CalendarPage.existeEvento(evento)
+      CalendarPage.eventExist(event)
 
       //Si no existe la creamos
-      cy.get("@existe").then( (valor) => {
-        if (!valor) {
+      cy.get("@exist").then( (value) => {
+        if (!value) {
         console.log("Crea Nota");
-        CalendarPage.clickEnFecha(evento.mes,evento.dia)
-        EventsElement.escribirNotaNew(evento.nota)
+        CalendarPage.clickOnDate(event.month,event.day)
+        EventsElement.writeNote(event.note)
       } else {
         console.log("No Crear Nota");
       }
@@ -46,24 +46,23 @@ describe('Challenge Calendar App', () => {
       
   })
 
-  it('Delete Groundhog Day',{tags:'ultimo'},()=> {
+  it('Delete Groundhog Day',{tags:'last'},()=> {
     cy.visit(Cypress.env("baseUrl"))
-    const evento = EventoBuilder.diaDeLaMarmota().build()
+    const event = EventBuilder.groundhogDay().build()
 
       //Se crea dia
-      CalendarPage.clickEnFecha(evento.mes,evento.dia)
-      EventsElement.escribirNotaNew(evento.nota)
+      CalendarPage.clickOnDate(event.month,event.day)
+      EventsElement.writeNote(event.note)
     
-    //Retorna valor si existe o no el dia
-    CalendarPage.existeEvento(evento)
+    //Retorna value si existe o no el dia
+    CalendarPage.eventExist(event)
 
     //Borra el dia si existe
-    cy.get("@existe").then( (valor) => {
-      if (valor) {
-      console.log("Borrar nota");
-      CalendarPage.clickEnFecha(evento.mes,evento.dia)
+    cy.get("@exist").then( (value) => {
+      if (value) {
+      CalendarPage.clickOnDate(event.month,event.day)
       cy.xpath("(//div[@class='Grid_reminderContent__pLoKD']//span[@class='Grid_customIcon__JyTa0 Grid_icon-cancel__HmIzw'])[1]").click()
-      EventsElement.cerrarModal()
+      EventsElement.closeModal()
     } else {
       cy.log("No existe Nota")
     }

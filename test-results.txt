@@ -1,4 +1,4 @@
-@cypress/grep: filtering using tag(s) "ultimo"
+@cypress/grep: running untagged tests
 
 ================================================================================
 
@@ -19,27 +19,27 @@
 
 
   Challenge Calendar App
-    - Open Page
-    - Go To February
-    - Create Groundhog Day
-    ✓ Delete Groundhog Day (3934ms)
+    ✓ Open Page (1055ms)
+    ✓ Go To February (2546ms)
+    ✓ Create Groundhog Day (3154ms)
+    - Delete Groundhog Day
 
 
-  1 passing (6s)
-  3 pending
+  3 passing (9s)
+  1 pending
 
 
   (Results)
 
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
   │ Tests:        4                                                                                │
-  │ Passing:      1                                                                                │
+  │ Passing:      3                                                                                │
   │ Failing:      0                                                                                │
-  │ Pending:      3                                                                                │
+  │ Pending:      1                                                                                │
   │ Skipped:      0                                                                                │
   │ Screenshots:  0                                                                                │
   │ Video:        true                                                                             │
-  │ Duration:     6 seconds                                                                        │
+  │ Duration:     8 seconds                                                                        │
   │ Spec Ran:     all.cy.js                                                                        │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
 
@@ -59,7 +59,7 @@
 
        Spec                                              Tests  Passing  Failing  Pending  Skipped  
   ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │ ✔  all.cy.js                                00:06        4        1        -        3        - │
+  │ ✔  all.cy.js                                00:08        4        3        -        1        - │
   └────────────────────────────────────────────────────────────────────────────────────────────────┘
-    ✔  All specs passed!                        00:06        4        1        -        3        -  
+    ✔  All specs passed!                        00:08        4        3        -        1        -  
 

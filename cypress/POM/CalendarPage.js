@@ -2,7 +2,7 @@ export class CalendarPage {
     constructor(){
     }
     
-    meses = {
+    months = {
         january:   1,
         february:  2,
         march:     3,
@@ -21,7 +21,7 @@ export class CalendarPage {
         nextButton: () => cy.get("div").contains("Next"),
         prevButton: () => cy.get("div").contains("Prev"),
         actualMonth: () => cy.xpath("//div[@class='Grid_header__yAoy_']//div[2]"),
-        diaSpace:(day) => cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+ day +"]")
+        daySpace:(day) => cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+ day +"]")
     }
 
     clickNextMonth(){
@@ -33,11 +33,11 @@ export class CalendarPage {
     }
 
     clickDay(day){
-      this.elements.diaSpace(day).click({force:true})
+      this.elements.daySpace(day).click({force:true})
     }
 
-    clickEnFecha(month,day){
-      this.recorrerAlMes(month)
+    clickOnDate(month,day){
+      this.goToMonth(month)
       this.clickDay(day)
     }
 
@@ -47,60 +47,60 @@ export class CalendarPage {
       cy.wrap(txt).as('txt')})
     }
 
-    recorrerAlMes(mes){
+    goToMonth(month){
         this.obtainMonth()
         cy.get('@txt').then(text => {
-            const mesActual = this.meses[text.toLowerCase()]
-            const mesObjetivo = this.meses[mes.toLowerCase()]
-            let mesesFaltantes = mesObjetivo - mesActual
+            const actualMonth = this.months[text.toLowerCase()]
+            const targetMonth = this.months[month.toLowerCase()]
+            let remainingMonths = targetMonth - actualMonth
             
-            if(mesesFaltantes < 0){
-              mesesFaltantes += 12;
+            if(remainingMonths < 0){
+              remainingMonths += 12;
             }  
-         for (let index = 0; index < mesesFaltantes; index++) {
+         for (let index = 0; index < remainingMonths; index++) {
               this.clickNextMonth()
             }
           })
     }
 
-     parseTexto(texto){
-      const originalString = texto
+     parseText(text){
+      const originalString = text
       const transformedString = originalString.replace(/\s/g, "").toLowerCase();
       const finalString = transformedString.replace(/[^a-zA-Z]/g, "");
       return finalString
     }
 
 
-    
-    existeEvento(evento){
-      cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+evento.dia+"]/following-sibling::div[1]").then(($contexto) => {
-    if ($contexto.find('.Grid_reminder__OelsH').length > 0) {
-      console.log("el elemento existe");
-      this.existeNotaNew(evento.nota)
+
+    eventExist(event){
+      cy.xpath("//div[@class='Grid_spaceInMonth__JTF6k   ']//p[text()="+event.day+"]/following-sibling::div[1]").then(($context) => {
+    if ($context.find('.Grid_reminder__OelsH').length > 0) {
+      console.log("el elemento exist");
+      this.noteExist(event.note)
     } else {
-      console.log("el elemento no existe");
-      const existe = false
-      cy.wrap(existe).as("existe")
+      console.log("el elemento no exist");
+      const exist = false
+      cy.wrap(exist).as("exist")
     }
   });
     }
 
-     existeNotaNew(nota){
-      let existeNota = false;
+     noteExist(note){
+      let existNote = false;
       cy.xpath("//div[@class='Grid_reminder__OelsH']").each(($el, index, $list) => {
-        const notaIngresada = this.parseTexto($el.text());
-        const notaAIngresar = this.parseTexto(nota);
+        const noteEntered = this.parseText($el.text());
+        const noteToEnter = this.parseText(note);
 
-        if (notaIngresada === notaAIngresar) {
-          console.log('Si existe la nota');
-          existeNota = true;
+        if (noteEntered === noteToEnter) {
+          console.log('Si exist la nota');
+          existNote = true;
           return false; // Salir del bucle cuando se encuentra la nota
         }
       }).then(() => {
-        if (existeNota) {
-          cy.wrap(true).as("existe");
+        if (existNote) {
+          cy.wrap(true).as("exist");
         } else {
-          cy.wrap(false).as("existe");
+          cy.wrap(false).as("exist");
         }
       });
     }

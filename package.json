@@ -6,7 +6,7 @@
   "scripts": {
     "cypress:open": "cypress open",
     "testAll": "npx cypress run --spec cypress/e2e/all/all.cy.js > test-results.txt && node Mailer.js",
-    "testLast": "npx cypress run  --spec cypress/e2e/all/all.cy.js --env grepTags=ultimo > test-results.txt && node Mailer.js ",
+    "testLast": "npx cypress run  --spec cypress/e2e/all/all.cy.js --env grepTags=last > test-results.txt && node Mailer.js ",
     "testNoLast": "npx cypress run --spec cypress/e2e/all/all.cy.js --env grepUntagged=true > test-results.txt && node Mailer.js" 
   },
   "keywords": [
